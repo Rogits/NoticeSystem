@@ -19,6 +19,7 @@ class Notice implements InputFilterAwareInterface
     public $description;
     public $title;
     public $category;
+
     protected $inputFilter;
     
     public function exchangeArray($data)
@@ -26,7 +27,9 @@ class Notice implements InputFilterAwareInterface
         $this->id     = (isset($data['id'])) ? $data['id'] : null;
         $this->description = (isset($data['description'])) ? $data['description'] : null;
         $this->title  = (isset($data['title'])) ? $data['title'] : null;
+
         $this->category = (isset($data['category'])) ? $data['category'] : null;
+
     }
     
     public function setInputFilter(InputFilterInterface $inputFilter)
@@ -59,6 +62,24 @@ class Notice implements InputFilterAwareInterface
                     array(
                         'name'    => 'StringLength',
                         'options' => array(
+                            'encoding' => 'UTF-8',                            
+                        ),
+                    ),
+                ),
+            )));
+             
+             
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'description',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
                             'encoding' => 'UTF-8',
                             'min'      => 1,
                             'max'      => 100,
@@ -67,7 +88,8 @@ class Notice implements InputFilterAwareInterface
                 ),
             )));
 
-            
+
+
             $inputFilter->add($factory->createInput(array(
                 'name'     => 'description',
                 'required' => true,
@@ -84,6 +106,7 @@ class Notice implements InputFilterAwareInterface
                     ),
                 ),
             )));
+
 
             $inputFilter->add($factory->createInput(array(
                 'name'     => 'title',

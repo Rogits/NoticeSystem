@@ -16,7 +16,7 @@ return array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'Notice\Controller\Notice',
-                        //'controller' => 'Application\Controller\Index',
+                        'controller' => 'Application\Controller\Index',
                         'action'     => 'index',
                     ),
                 ),
