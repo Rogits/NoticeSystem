@@ -11,13 +11,16 @@ namespace Notice\Model;
 use Zend\InputFilter\Factory as InputFactory;     
 use Zend\InputFilter\InputFilter;                 
 use Zend\InputFilter\InputFilterAwareInterface;   
-use Zend\InputFilter\InputFilterInterface;   
+use Zend\InputFilter\InputFilterInterface; 
+//use Zend\Form\FormInterface;
+//use Notice\Entity\Category;
 
 class Notice implements InputFilterAwareInterface
 {
     public $id;
     public $description;
     public $title;
+    public $category;
     protected $inputFilter;
     
     public function exchangeArray($data)
@@ -25,6 +28,7 @@ class Notice implements InputFilterAwareInterface
         $this->id     = (isset($data['id'])) ? $data['id'] : null;
         $this->description = (isset($data['description'])) ? $data['description'] : null;
         $this->title  = (isset($data['title'])) ? $data['title'] : null;
+        $this->category = (isset($data['category'])) ? $data['category'] : null;
     }
     
     public function setInputFilter(InputFilterInterface $inputFilter)
@@ -38,30 +42,12 @@ class Notice implements InputFilterAwareInterface
             $inputFilter = new InputFilter();
             $factory     = new InputFactory();
 
+            
             $inputFilter->add($factory->createInput(array(
                 'name'     => 'id',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'Int'),
-                ),
-            )));
-
-            $inputFilter->add($factory->createInput(array(
-                'name'     => 'description',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name'    => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 100,
-                        ),
-                    ),
                 ),
             )));
 
@@ -83,7 +69,46 @@ class Notice implements InputFilterAwareInterface
                     ),
                 ),
             )));
+            
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'description',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+                )));
 
+            $inputFilter->add($factory->createInput(
+                    array(
+                    'name' => 'category',
+                    'required' => true,
+                    'filters'  => array(
+                        array('name' => 'StripTags'),
+                        array('name' => 'StringTrim'),
+                    ),
+                    'validators' => array(
+                        array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+                        )));        
+            
             $this->inputFilter = $inputFilter;
         }
 
@@ -97,4 +122,3 @@ class Notice implements InputFilterAwareInterface
 
 }
 
-?>

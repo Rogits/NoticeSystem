@@ -10,67 +10,68 @@ namespace Notice\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Notice\Model\Notice;          
-use Notice\Form\NoticeForm; 
+use Notice\Model\Category;          
+use Notice\Form\CategoryForm; 
 
-class NoticeController extends AbstractActionController
+class CategoryController extends AbstractActionController
 {
-    protected $noticeTable;
     protected $categoryTable;
-    public function indexAction()
+    
+    public function indexAction() 
     {
         return new ViewModel(array(
-            'notices' => $this->getNoticeTable()->fetchAll(),
+            'categories' => $this->getCategoryTable()->fetchAll(),
         ));
     }
-
+    
     public function addAction()
     {
-        $form = new NoticeForm($this->getCategoryTable());
+        $form = new CategoryForm();
         $form->get('submit')->setValue('Add');
-        //$form->get('submit')->setAttribute('value', 'Add');        
-        
+        //$form->get('submit')->setAttribute('value', 'Add');
+
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $notice = new Notice();
-            $form->setInputFilter($notice->getInputFilter());           
+            $cat = new Category();
+            $form->setInputFilter($cat->getInputFilter());           
             $form->setData($request->getPost());
 
-            if ($form->isValid()) {                
-                $notice->exchangeArray($form->getData());
-                $this->getNoticeTable()->saveNotice($notice);                
+            if ($form->isValid()) {
+                $cat->exchangeArray($form->getData());
+                $this->getCategoryTable()->saveCategory($cat);
+
                 // Redirect to list of albums
-                return $this->redirect()->toRoute('notice');
+                return $this->redirect()->toRoute('category');
             }
         }
-        return array('form' => $form);
+        return array('form' => $form);        
     }
-
+    
     public function editAction()
     {
-        $id = (int) $this->params()->fromRoute('id', 0);
+         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('notice', array(
+            return $this->redirect()->toRoute('category', array(
                 'action' => 'add'
             ));
         }
-        $notice = $this->getNoticeTable()->getNotice($id);
+        $cat = $this->getCategoryTable()->getCategory($id);
 
-        $form = new NoticeForm($this->getCategoryTable());
+        $form  = new CategoryForm();
      
-        $form->bind($notice);
+        $form->bind($cat);
         $form->get('submit')->setAttribute('value', 'Edit');
 
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $form->setInputFilter($notice->getInputFilter());
+            $form->setInputFilter($cat->getInputFilter());
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
-                $this->getNoticeTable()->saveNotice($form->getData());
+                $this->getCategoryTable()->saveCategory($form->getData());
 
                 // Redirect to list of albums
-                return $this->redirect()->toRoute('notice');
+                return $this->redirect()->toRoute('category');
             }
         }
 
@@ -79,12 +80,12 @@ class NoticeController extends AbstractActionController
             'form' => $form,
         );
     }
-
+    
     public function deleteAction()
     {
-        $id = (int) $this->params()->fromRoute('id', 0);
+         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('notice');
+            return $this->redirect()->toRoute('category');
         }
 
         $request = $this->getRequest();
@@ -93,27 +94,19 @@ class NoticeController extends AbstractActionController
 
             if ($del == 'Yes') {
                 $id = (int) $request->getPost('id');
-                $this->getNoticeTable()->deleteNotice($id);
+                $this->getCategoryTable()->deleteCategory($id);
             }
 
-            // Redirect to list of albums
-            return $this->redirect()->toRoute('notice');
+            // Redirect to list of categories
+            return $this->redirect()->toRoute('category');
         }
 
         return array(
             'id'    => $id,
-            'notice' => $this->getNoticeTable()->getNotice($id)
+            'category' => $this->getCategoryTable()->getCategory($id)
         );
     }
     
-    public function getNoticeTable()
-    {
-        if (!$this->noticeTable) {
-            $sm = $this->getServiceLocator();
-            $this->noticeTable = $sm->get('Notice\Model\NoticeTable');
-        }
-        return $this->noticeTable;
-    }
     public function getCategoryTable()
     {
         if (!$this->categoryTable) {
@@ -123,5 +116,3 @@ class NoticeController extends AbstractActionController
         return $this->categoryTable;
     }
 }
-
-?>

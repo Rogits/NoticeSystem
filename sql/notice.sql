@@ -1,6 +1,6 @@
-CREATE DATABASE noticesystem;
+CREATE DATABASE IF NOT EXISTS noticesystem;
 USE noticesystem;
-CREATE TABLE notice (A
+CREATE TABLE IF NOT EXISTS notice (
   id int(11) NOT NULL auto_increment,
   title varchar(100) NOT NULL,
   description text NOT NULL,

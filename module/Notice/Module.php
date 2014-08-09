@@ -3,6 +3,8 @@ namespace Notice;
 
 use Notice\Model\Notice;
 use Notice\Model\NoticeTable;
+use Notice\Model\Category;
+use Notice\Model\CategoryTable;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -39,6 +41,17 @@ class Module
                     $resultSetPrototype->setArrayObjectPrototype(new Notice());
                     return new TableGateway('notice', $dbAdapter, null, $resultSetPrototype);
                 },
+               'Notice\Model\CategoryTable' =>  function($sm) {
+                    $tableGateway = $sm->get('CategoryTableGateway');
+                    $table = new CategoryTable($tableGateway);
+                    return $table;
+                },
+                'CategoryTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Category());
+                    return new TableGateway('category', $dbAdapter, null, $resultSetPrototype);
+                },               
             ),
         );
     }

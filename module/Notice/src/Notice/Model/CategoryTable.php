@@ -5,27 +5,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 namespace Notice\Model;
 
 use Zend\Db\TableGateway\TableGateway;
 
-class NoticeTable
+class CategoryTable
 {
     protected $tableGateway;
-
-    public function __construct(TableGateway $tableGateway)
-    {
+    
+    public function __construct(TableGateway $tableGateway) {
         $this->tableGateway = $tableGateway;
     }
-
+    
     public function fetchAll()
     {
         $resultSet = $this->tableGateway->select();
         return $resultSet;
     }
 
-    public function getNotice($id)
+    public function getCategory($id)
     {
         $id  = (int) $id;
         $rowset = $this->tableGateway->select(array('id' => $id));
@@ -36,19 +34,17 @@ class NoticeTable
         return $row;
     }
 
-    public function saveNotice(Notice $notice)
+    public function saveCategory(Category $category)
     {
-        $data = array(            
-            'description' => $notice->description,
-            'title'  => $notice->title,
-            'category' => $notice->category,
+        $data = array(           
+            'name' => $category->name,
         );
 
-        $id = (int)$notice->id;
+        $id = (int)$category->id;
         if ($id == 0) {
             $this->tableGateway->insert($data);
         } else {
-            if ($this->getNotice($id)) {
+            if ($this->getCategory($id)) {
                 $this->tableGateway->update($data, array('id' => $id));
             } else {
                 throw new \Exception('Form id does not exist');
@@ -56,8 +52,10 @@ class NoticeTable
         }
     }
 
-    public function deleteNotice($id)
+    public function deleteCategory($id)
     {
         $this->tableGateway->delete(array('id' => $id));
     }
 }
+
+
