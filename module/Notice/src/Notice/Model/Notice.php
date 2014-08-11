@@ -21,6 +21,10 @@ class Notice implements InputFilterAwareInterface
     public $description;
     public $title;
     public $category;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 855d16ba3bef7234de700af923918d0f5747b98f
     protected $inputFilter;
     
     public function exchangeArray($data)
@@ -28,7 +32,13 @@ class Notice implements InputFilterAwareInterface
         $this->id     = (isset($data['id'])) ? $data['id'] : null;
         $this->description = (isset($data['description'])) ? $data['description'] : null;
         $this->title  = (isset($data['title'])) ? $data['title'] : null;
+<<<<<<< HEAD
         $this->category = (isset($data['category'])) ? $data['category'] : null;
+=======
+
+        $this->category = (isset($data['category'])) ? $data['category'] : null;
+
+>>>>>>> 855d16ba3bef7234de700af923918d0f5747b98f
     }
     
     public function setInputFilter(InputFilterInterface $inputFilter)
@@ -51,6 +61,24 @@ class Notice implements InputFilterAwareInterface
                 ),
             )));
 
+             $inputFilter->add($factory->createInput(array(
+                'name'     => 'category',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',                            
+                        ),
+                    ),
+                ),
+            )));
+             
+             
             $inputFilter->add($factory->createInput(array(
                 'name'     => 'title',
                 'required' => true,
@@ -69,7 +97,31 @@ class Notice implements InputFilterAwareInterface
                     ),
                 ),
             )));
+<<<<<<< HEAD
             
+=======
+
+
+
+            $inputFilter->add($factory->createInput(array(
+                'name'     => 'description',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',                            
+                        ),
+                    ),
+                ),
+            )));
+
+
+>>>>>>> 855d16ba3bef7234de700af923918d0f5747b98f
             $inputFilter->add($factory->createInput(array(
                 'name'     => 'description',
                 'required' => true,

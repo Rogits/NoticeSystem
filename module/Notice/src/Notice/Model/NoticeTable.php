@@ -41,7 +41,11 @@ class NoticeTable
         $data = array(            
             'description' => $notice->description,
             'title'  => $notice->title,
+<<<<<<< HEAD
             'category' => $notice->category,
+=======
+            'category' => $notice->category
+>>>>>>> 855d16ba3bef7234de700af923918d0f5747b98f
         );
 
         $id = (int)$notice->id;

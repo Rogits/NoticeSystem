@@ -56,6 +56,15 @@ class  NoticeForm extends Form
             ),                      
         ));
         $this->add(array(
+            'name' => 'category',
+            'attributes' => array(
+                'type'  => 'text',
+            ),
+            'options' => array(
+                'label' => 'Category',
+            ),
+        ));
+        $this->add(array(
             'name' => 'description',
             'attributes' => array(
                 'type'  => 'textarea',
