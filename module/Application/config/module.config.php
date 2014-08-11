@@ -57,6 +57,10 @@ return array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
         ),
+        'factories' => array(
+        //'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
+        'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+        ),
         'aliases' => array(
             'translator' => 'MvcTranslator',
         ),
@@ -99,4 +103,56 @@ return array(
             ),
         ),
     ),
+    
+    'navigation' => array(
+    'default' => array(
+        /*array(
+            'label' => 'Home',
+            'route' => 'home',
+        ),*/
+        array(
+            'label' => 'Notice',
+            'route' => 'notice',
+            'pages' => array(
+                array(
+                    'label' => 'Add',
+                    'route' => 'notice',
+                    'action' => 'add',
+                ),
+                array(
+                    'label' => 'Edit',
+                    'route' => 'notice',
+                    'action' => 'edit',
+                ),
+                array(
+                    'label' => 'Delete',
+                    'route' => 'notice',
+                    'action' => 'delete',
+                ),
+            ),
+        ),
+        array(
+            'label' => 'Category',
+            'route' => 'category',
+            'pages' => array(
+                array(
+                    'label' => 'Add',
+                    'route' => 'category',
+                    'action' => 'add',
+                ),
+                array(
+                    'label' => 'Edit',
+                    'route' => 'category',
+                    'action' => 'edit',
+                ),
+                array(
+                    'label' => 'Delete',
+                    'route' => 'category',
+                    'action' => 'delete',
+                ),
+            ),
+        ),
+    ),
+),
+    
 );
